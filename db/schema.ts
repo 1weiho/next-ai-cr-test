@@ -8,3 +8,5 @@ export const todosTable = pgTable("todos", {
   createdAt: timestamp().notNull().defaultNow(),
   updatedAt: timestamp().notNull().$onUpdate(() => new Date()),
 });
+
+export type Todo = typeof todosTable.$inferSelect
