@@ -45,7 +45,7 @@ export function TodoForm() {
             <Textarea name="description" placeholder="Add details (optional)" rows={3} disabled={isSubmitting} />
           </div>
         </CardContent>
-        <CardFooter className="flex justify-end">
+        <CardFooter className="flex justify-end pt-4">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
