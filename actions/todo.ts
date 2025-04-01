@@ -9,14 +9,26 @@ import { todosTable } from "@/db/schema"
 export async function createTodo(formData: FormData) {
   const title = formData.get("title") as string
   const description = formData.get("description") as string
+  const dueDateStr = formData.get("dueDate") as string
 
   if (!title?.trim()) {
     return { error: "Title is required" }
   }
 
+  // Parse the due date if provided
+  let dueDate = null
+  if (dueDateStr) {
+    dueDate = new Date(dueDateStr)
+    // Check if the date is valid
+    if (isNaN(dueDate.getTime())) {
+      dueDate = null
+    }
+  }
+
   await db.insert(todosTable).values({
     title,
     description: description || null,
+    dueDate,
     updatedAt: new Date(),
   })
 
