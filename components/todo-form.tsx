@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,6 +11,7 @@ import { createTodo } from "@/actions/todo"
 
 export function TodoForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true)
@@ -21,9 +22,7 @@ export function TodoForm() {
       if (result.error) {
         toast.error(result.error)
       } else {
-        // Reset the form
-        const form = document.getElementById("todo-form") as HTMLFormElement
-        form.reset()
+        formRef.current?.reset()
 
         toast.success("Todo created successfully")
       }
@@ -36,7 +35,7 @@ export function TodoForm() {
 
   return (
     <Card>
-      <form id="todo-form" action={handleSubmit}>
+      <form ref={formRef} action={handleSubmit}>
         <CardContent className="pt-6 space-y-4">
           <div className="space-y-2">
             <Input name="title" placeholder="What needs to be done?" required disabled={isSubmitting} />
